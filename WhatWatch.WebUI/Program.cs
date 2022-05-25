@@ -21,8 +21,8 @@ builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHealthChecks()
-    .AddDbContextCheck<ApplicationDbContext>();
+//builder.Services.AddHealthChecks()
+//    .AddDbContextCheck<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<ApiExceptionFilterAttribute>())

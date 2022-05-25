@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WhatWatch.Domain.Common;
 
-namespace WhatWatch.Domain.Entities
+namespace WhatWatch.Domain.Entities;
+
+public class Movie : BaseEntity
 {
-    internal class Movie
-    {
-    }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string Image { get; set; }
 }

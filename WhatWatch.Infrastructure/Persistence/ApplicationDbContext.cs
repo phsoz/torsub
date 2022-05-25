@@ -1,81 +1,27 @@
-﻿using Duende.IdentityServer.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Options;
-using System.Reflection;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using WhatWatch.Application.Common.Interfaces;
-using WhatWatch.Domain.Common;
-using WhatWatch.Infrastructure.Identity;
+using WhatWatch.Application.Settings;
 
 namespace WhatWatch.Infrastructure.Persistence;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : IApplicationDbContext
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTime _dateTime;
-    private readonly IDomainEventService _domainEventService;
+    private IMongoDatabase DbContext { get; set; }
 
-    public ApplicationDbContext(
-        DbContextOptions<ApplicationDbContext> options,
-        IOptions<OperationalStoreOptions> operationalStoreOptions,
-        ICurrentUserService currentUserService,
-        IDomainEventService domainEventService,
-        IDateTime dateTime) : base(options, operationalStoreOptions)
+    private MongoClient MongoClient { get; set; }
+
+    //public IClientSessionHandle Session { get; set; }
+
+    public ApplicationDbContext(IOptions<MongoDBSettings> configuration)
     {
-        _currentUserService = currentUserService;
-        _domainEventService = domainEventService;
-        _dateTime = dateTime;
+        MongoClient = new MongoClient(configuration.Value.ConnectionString);
+        DbContext = MongoClient.GetDatabase(configuration.Value.DatabaseName);
     }
 
-    //public DbSet<TodoList> TodoLists => Set<TodoList>();
-
-    //public DbSet<TodoItem> TodoItems => Set<TodoItem>();
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    public IMongoCollection<T> GetCollection<T>(string name)
     {
-        foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
-        {
-            switch (entry.State)
-            {
-                case EntityState.Added:
-                    entry.Entity.CreatedBy = _currentUserService.UserId;
-                    entry.Entity.Created = _dateTime.Now;
-                    break;
-
-                case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                    entry.Entity.LastModified = _dateTime.Now;
-                    break;
-            }
-        }
-
-        var events = ChangeTracker.Entries<IHasDomainEvent>()
-                .Select(x => x.Entity.DomainEvents)
-                .SelectMany(x => x)
-                .Where(domainEvent => !domainEvent.IsPublished)
-                .ToArray();
-
-        var result = await base.SaveChangesAsync(cancellationToken);
-
-        await DispatchEvents(events);
-
-        return result;
+        return DbContext.GetCollection<T>(name);
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        base.OnModelCreating(builder);
-    }
-
-    private async Task DispatchEvents(DomainEvent[] events)
-    {
-        foreach (var @event in events)
-        {
-            @event.IsPublished = true;
-            await _domainEventService.Publish(@event);
-        }
-    }
 }
