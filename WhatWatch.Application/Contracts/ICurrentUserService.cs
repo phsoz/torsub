@@ -1,4 +1,4 @@
-﻿namespace WhatWatch.Application.Common.Interfaces;
+﻿namespace WhatWatch.Application.Contracts;
 
 public interface ICurrentUserService
 {

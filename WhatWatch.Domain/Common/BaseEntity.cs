@@ -3,11 +3,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace WhatWatch.Domain.Common;
 
-public abstract class BaseEntity
+public class BaseEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     public DateTime Created { get; set; }
 

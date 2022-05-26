@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 using System.Reflection;
 using WhatWatch.Application.Common.Behaviours;
+using WhatWatch.Application.Settings;
 
 namespace WhatWatch.Application;
 
@@ -10,6 +12,7 @@ public static class ApplicationServiceInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());

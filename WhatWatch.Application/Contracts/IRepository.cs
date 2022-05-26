@@ -1,17 +1,21 @@
 ﻿using System.Linq.Expressions;
+using WhatWatch.Domain.Common;
 
 namespace WhatWatch.Application.Contracts;
 
-public interface IRepository<T>
+public interface IRepository<T> : IDisposable where T : BaseEntity
 {
-    IQueryable<T> GetAll();
-    //Task<T> GetAllAsync();
-    Task<T> GetAsync(Expression<Func<T, bool>> predicate);
+    Task CreateAsync(T entity);
 
-    Task<T> AddAsync(T obj);
+    Task<IReadOnlyCollection<T>> GetAllAsync();
 
-    Task<T> UpdateAsync(T obj);
+    Task<IReadOnlyCollection<T>> GetAllAsync(Expression<Func<T, bool>> filter);
 
-    Task DeleteAsync(Expression<Func<T, bool>> predicate);
+    Task<T> GetAsync(Guid id);
 
+    Task<T> GetAsync(Expression<Func<T, bool>> filter);
+
+    Task RemoveAsync(Guid id);
+
+    Task UpdateAsync(T entity);
 }

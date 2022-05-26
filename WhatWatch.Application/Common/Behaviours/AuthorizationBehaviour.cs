@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using System.Reflection;
 using WhatWatch.Application.Common.Exceptions;
-using WhatWatch.Application.Common.Interfaces;
 using WhatWatch.Application.Common.Security;
+using WhatWatch.Application.Contracts;
 
 namespace WhatWatch.Application.Common.Behaviours;
 

@@ -1,27 +1,17 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using WhatWatch.Application.Common.Interfaces;
+using WhatWatch.Application.Contracts;
 using WhatWatch.Application.Settings;
 
 namespace WhatWatch.Infrastructure.Persistence;
 
 public class ApplicationDbContext : IApplicationDbContext
 {
-    private IMongoDatabase DbContext { get; set; }
+    public IMongoDatabase DbContext { get; set; }
 
-    private MongoClient MongoClient { get; set; }
-
-    //public IClientSessionHandle Session { get; set; }
-
-    public ApplicationDbContext(IOptions<MongoDBSettings> configuration)
+    public ApplicationDbContext(IOptions<AppSettings> options)
     {
-        MongoClient = new MongoClient(configuration.Value.ConnectionString);
-        DbContext = MongoClient.GetDatabase(configuration.Value.DatabaseName);
+        var mongoClient = new MongoClient(options.Value.ConnectionString);
+        DbContext = mongoClient.GetDatabase(options.Value.DatabaseName);
     }
-
-    public IMongoCollection<T> GetCollection<T>(string name)
-    {
-        return DbContext.GetCollection<T>(name);
-    }
-
 }

@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using WhatWatch.Application.Common.Interfaces;
+using WhatWatch.Application.Contracts;
 
 namespace WhatWatch.API.Services;
 

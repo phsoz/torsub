@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using WhatWatch.Application.Common.Interfaces;
 using WhatWatch.Application.Common.Models;
+using WhatWatch.Application.Contracts;
 using WhatWatch.Domain.Common;
 
 namespace WhatWatch.Infrastructure.Services;

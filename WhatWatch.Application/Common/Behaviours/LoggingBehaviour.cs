@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WhatWatch.Application.Common.Interfaces;
+using WhatWatch.Application.Contracts;
 
 namespace WhatWatch.Application.Common.Behaviours;
 

@@ -1,6 +1,6 @@
 ﻿using WhatWatch.Domain.Common;
 
-namespace WhatWatch.Application.Common.Interfaces;
+namespace WhatWatch.Application.Contracts;
 
 public interface IDomainEventService
 {

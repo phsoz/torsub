@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using WhatWatch.Application.Common.Interfaces;
+using WhatWatch.Application.Contracts;
 
 namespace WhatWatch.Application.Common.Behaviours;
 

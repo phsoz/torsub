@@ -1,6 +1,6 @@
 ﻿using WhatWatch.Application.Common.Models;
 
-namespace WhatWatch.Application.Common.Interfaces;
+namespace WhatWatch.Application.Contracts;
 
 public interface IIdentityService
 {

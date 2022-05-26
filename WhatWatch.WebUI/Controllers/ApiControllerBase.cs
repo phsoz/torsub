@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WhatWatch.API.Controllers;
+namespace WhatWatch.WebUI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

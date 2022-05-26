@@ -1,4 +1,4 @@
-﻿using WhatWatch.Application.Common.Interfaces;
+﻿using WhatWatch.Application.Contracts;
 
 namespace WhatWatch.Infrastructure.Services;
 
